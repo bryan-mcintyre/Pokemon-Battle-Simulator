@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css" />
-    <title>Pokémon Battle Simulator</title>
-</head>
-<body>
-    <div class="grid">
-        <div class="cell">
-          <article class="box">
-            <p class="title">Your Pokémon</p>
-            <p class="subtitle"></p>
-          </article>
-        </div>
-        <div class="cell">
-          <article class="box">
-            <p class="title">Opponent Pokémon</p>
-            <p class="subtitle"></p>
-          </article>
-        </div>
-      </div>
 
-      <script src="./js/script.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css" />
+  <title>Pokémon Battle Simulator</title>
+</head>
+
+<body>
+  <header><img src="./assets/img/d9069cd4c6cebc8776d039de83538f1a.png" alt="Header img" class="header-image"></header>
+  <main>
+    <div class="grid">
+      <div class="cell">
+        <form class="box">
+          <p class="title">Your Pokémon</p>
+          <button id="create-card-button" type="button" class="button">Choose your Pokémon!</button>
+          <p class="subtitle"></p>
+        </form>
+        <div id="card-container" class="card-container"></div>
+      </div>
+      <div class="cell">
+        <form class="box">
+          <p class="title">Opponent Pokémon</p>
+          <button id="create-card-button" type="button" class="button">Generate Opponent Pokémon!</button>
+          <p class="subtitle"></p>
+        </form>
+        <div id="card-container" class="card-container"></div>
+      </div>
+    </div>
+  </main>
+  <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
