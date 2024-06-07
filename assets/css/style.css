@@ -1,3 +1,118 @@
 :root {
     background: #0075BE;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    margin-top: 25px;
+}
+
+p {
+    color: #FFCC00;
+    text-shadow: -2px 2px 3px #3b4cca;
+    text-decoration: underline;
+}
+
+.title {
+    color: #FFCC00;
+}
+
+.box {
+    background-color: #cc0000;
+    height: 100%;
+    border-style:inset;
+    border-width: 10px;
+    border-color: #3b4cca;
+}
+
+.cell {
+    margin: 15px;
+    box-shadow: 5px 5px 3px black;
+    border-radius: 5.5%;
+}
+
+.button {
+    width: 250px;
+    height: 35px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    border-color: white;
+    border-width: 5px;
+    border-style:double;
+    text-shadow: 1px 1px 4px #FFCC00;
+}
+
+.button:hover {
+    background-color: #FFCC00;
+}
+
+.grid {
+    display: flex;
+    justify-content: center;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    background-color: #cc0000;
+    border: 8px solid #ddd;
+    border-radius: 8px;
+    border-style: inset;
+    border-color:#3b4cca;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 200px;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 25px;
+    margin: 0 0 10px;
+    font-weight: bold;
+    color:#FFCC00;
+    text-shadow: -2px 2px 3px #3b4cca;
+    text-decoration: underline;
+}
+
+.card-text {
+    color: #FFCC00;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.header-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
