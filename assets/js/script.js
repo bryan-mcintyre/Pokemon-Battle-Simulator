@@ -43,21 +43,28 @@ function fetchPokemonByName(pokemon) {
         })
 }
 
-fetch("https://icanhazdadjoke.com/", {
-    method: 'GET', //GET is the default.
-    credentials: 'same-origin', // include, *same-origin, omit
-    redirect: 'follow',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }// manual, *follow, error
-})
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-    });
+function fetchDadJoke() {
+    fetch("https://icanhazdadjoke.com/", {
+            method: 'GET', //GET is the default.
+            credentials: 'same-origin', // include, *same-origin, omit
+            redirect: 'follow',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }// manual, *follow, error
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data.joke);
+                const joke = data.joke
+                localStorage.setItem("Joke", joke)
+                
+            })
+}
+
+fetchDadJoke()
 
 
 fetchRandomPokemon();
