@@ -15,17 +15,20 @@ function fetchRandomPokemon() {
     // random 1302 pokemons have in api
     const randomPokemon = Math.floor(Math.random() * 1302)
     const pokeApi = `https://pokeapi.co/api/v2/pokemon?limit=1500`
-
-    fetch(pokeApi)
-        .then(function (response) {
-            // get results about all pokemons
-            return response.json()
-        })
-        .then(function (data) {
-            fetchPokemonByName(data.results[randomPokemon].name)
-            dataPokemons = data;
-            console.log(data)
-        })
+    if (dataPokemons) {
+        fetchPokemonByName(dataPokemons.results[randomPokemon].name)
+    } else {
+        fetch(pokeApi)
+            .then(function (response) {
+                // get results about all pokemons
+                return response.json()
+            })
+            .then(function (data) {
+                dataPokemons = data;
+                fetchPokemonByName(dataPokemons.results[randomPokemon].name)
+                console.log(data)
+            })
+    }
 }
 
 function fetchPokemonByName(pokemon) {
@@ -36,7 +39,7 @@ function fetchPokemonByName(pokemon) {
         })
         .then(function (data) {
             console.log(`DATAPOKEMONS`)
-            console.log(dataPokemons)
+            console.log(data.name)
         })
 }
 
