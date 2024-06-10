@@ -1,3 +1,7 @@
+let dataPokemons;
+let pokemonS;
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const cardContainer = document.getElementById('card-container');
     const createCardButton = document.getElementById('create-card-button');
@@ -34,25 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
         cardElement.appendChild(cardBody);
         cardContainer.appendChild(cardElement);
     };
-});const dadJokeApi = "https://icanhazdadjoke.com/"
-const btnEl = $("#btn")
-let dataPokemons;
-let pokemonS;
+}); const dadJokeApi = "https://icanhazdadjoke.com/"
 
-btnEl.on('click', cons)
 
-function cons() {
-    console.log("Here btn")
-}
 
 // class pokemon for create newPokemon
+//TODO: sprites.other.sprites.official art work
 class Pokemon {
     constructor(pokemon) {
         this.id = pokemon.id;
         this.name = pokemon.name;
         this.hp = pokemon.stats[0].base_stat;
         this.attack = pokemon.stats[1].base_stat;
-        this.image = pokemon.sprites.front_default;
+        this.image = pokemon.sprites.other[`official-artwork`].front_default;
     }
 }
 
@@ -113,6 +111,7 @@ function fetchPokemonByName(pokemon) {
             console.log(`DATAPOKEMONS`)
             console.log(data.name)
             console.log(data)
+            testPoke = data.sprites.other[`official-artwork`].front_default;
             pokemonS = data;
             saveNewPokemonForUser(pokemonS);
             setEnemyPokemonToLocalStorage(pokemonS);
