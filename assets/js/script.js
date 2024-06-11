@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleStorageButton = document.getElementById('toggle-storage-button');
     const storageCell = document.querySelector('.storage-cell');
 
-  
-    let userPokemonSelected = false;
-    let opponentPokemonSelected = false;
+
+    let userPokemonSelected = null;
+    let opponentPokemonSelected = null;
     let isStorageVisible = false;
 
     chooseStarterButton.addEventListener('click', () => {
@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     generateOpponentButton.addEventListener('click', () => {
-        fetchRandomPokemon(opponentCardContainer);
-        opponentPokemonSelected = true;
-        checkBattleReady();
+        fetchRandomPokemon(opponentCardContainer, pokemon => {
+            opponentPokemonSelected = pokemon;
+            checkBattleReady();
+        });
     });
 
     battleButton.addEventListener('click', () => {
@@ -47,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displayBattleSummary();
             battleModal.style.display = 'block';
             let isWin = battle(userPokemonSelected, opponentPokemonSelected);
+            console.log(isWin);
             // TODO: if win then text WINNER, Congratulations you catch {name Pokemon}
             // TODO: if loose then text LOOSE, DadJoke
         }
@@ -128,13 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 saveNewPokemonToStorage(pokemon);
                 createCard(pokemon, storageBoxContainer, true);
                 modal.style.display = 'none';
+                isAuthorized();
             });
         } else if (container.id === 'battle-storage-container') {
             cardElement.addEventListener('click', () => {
                 battlePokemonContainer.innerHTML = '';
                 createCard(pokemon, battlePokemonContainer, false);
                 chooseBattlePokemonModal.style.display = 'none';
-                userPokemonSelected = true;
+                userPokemonSelected = pokemon;
                 checkBattleReady();
             });
         }
@@ -155,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
-    const fetchRandomPokemon = (container) => {
+    const fetchRandomPokemon = (container, callback) => {
         const randomId = Math.floor(Math.random() * 1302);
         const pokeApi = `https://pokeapi.co/api/v2/pokemon/${randomId}`;
 
@@ -165,6 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 const pokemon = new Pokemon(data);
                 container.innerHTML = '';
                 createCard(pokemon, container, false);
+                if (container.id === 'opponent-card-container') {
+                    opponentPokemon = pokemon;
+                    checkBattleReady();
+                }
+                if (callback) {
+                    callback(pokemon);
+                }
             });
     };
 
@@ -244,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function battle(userPokemon, enemyPokemon) {
         // who is win
         let isWinUser = true;
-
+        const defaultHpEnemyPokemon = enemyPokemon.hp;
         // if true, then move userPokemon if false move enemy's
         let currentAttack = true;
 
@@ -260,12 +270,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (userPokemon.hp > 0) {
+            console.log("User win", `${userPokemon.hp} enemy: ${enemyPokemon.hp}`)
+            enemyPokemon.hp = defaultHpEnemyPokemon;
             saveNewPokemonToStorage(enemyPokemon);
             return isWinUser;
         } else {
+            console.log(`User lost ${userPokemon.hp} enemy: ${enemyPokemon.hp}`)
             return !isWinUser;
         }
     }
 
-    getTwoPokemons();
+
+    function setAuthorized() {
+        document.querySelector('main').classList.add('authorized');
+        document.querySelector('main').classList.remove('unauthorized');
+    }
+
+
+    function setUnauthorized() {
+        document.querySelector('main').classList.add('unauthorized');
+        document.querySelector('main').classList.remove('authorized');
+    }
+
+    function isAuthorized() {
+        const userPokemonsFromStorage = getStoragePokemonsFromLocalStorage();
+        if (userPokemonsFromStorage.length > 0) {
+            setAuthorized();
+        } else {
+            setUnauthorized();
+        }
+    }
+
+    isAuthorized();
 });

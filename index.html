@@ -12,9 +12,9 @@
 
 <body>
   <header><img src="./assets/img/d9069cd4c6cebc8776d039de83538f1a.png" alt="Header img" class="header-image"></header>
-  <main>
+  <main class="unauthorized">
     <div class="grid">
-      <div class="cell">
+      <div class="cell" id="unauthorized">
         <form class="box">
           <p class="title">Choose your starter Pokémon!</p>
           <button id="choose-starter-button" type="button" class="starter-button">Choose your starter Pokémon!</button>
@@ -22,7 +22,7 @@
         </form>
         <div id="your-card-container" class="card-container"></div>
       </div>
-      <div class="cell">
+      <div class="cell" id="authorized">
         <form class="box battle-container">
           <p class="title">Prepare for Battle</p>
           <div class="battle-card-row">
@@ -38,7 +38,7 @@
         </form>
       </div>
     </div>
-    <div class="cell storage-cell">
+    <div class="cell storage-cell" id="authorized">
       <form class="box">
         <p class="title">Storage Box</p>
         <button id="toggle-storage-button" type="button" class="storage-button">Toggle Owned Pokémon</button>
