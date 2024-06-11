@@ -4,23 +4,73 @@ const dadJokeApi = "https://icanhazdadjoke.com/"
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const cardContainer = document.getElementById('card-container');
-    const createCardButton = document.getElementById('create-card-button');
+    const storageBoxContainer = document.getElementById('storage-box-container');
+    const chooseStarterButton = document.getElementById('choose-starter-button');
+    const battleButton = document.getElementById('battle-button');
+    const chooseBattlePokemonButton = document.getElementById('choose-battle-pokemon-button');
+    const generateOpponentButton = document.getElementById('generate-opponent-button');
+    const modal = document.getElementById('pokemonModal');
+    const battleModal = document.getElementById('battleModal');
+    const chooseBattlePokemonModal = document.getElementById('chooseBattlePokemonModal');
+    const closeBtns = document.querySelectorAll('.close');
+    const starterPokemonContainer = document.getElementById('starter-pokemon-container');
+    const battlePokemonContainer = document.getElementById('battle-card-container');
+    const opponentCardContainer = document.getElementById('opponent-card-container');
+    const battleStorageContainer = document.getElementById('battle-storage-container');
+    const battleSummaryContainer = document.getElementById('battle-summary-container');
 
-    createCardButton.addEventListener('click', () => {
-        createCard({
-            title: 'New Card',
-            text: 'This is a newly created card.',
-            imageUrl: ''
+    let userPokemonSelected = false;
+    let opponentPokemonSelected = false;
+
+    chooseStarterButton.addEventListener('click', () => {
+        fetchRandomPokemons(3);
+        modal.style.display = 'block';
+    });
+
+    chooseBattlePokemonButton.addEventListener('click', () => {
+        displayStoredPokemonsForBattle();
+        chooseBattlePokemonModal.style.display = 'block';
+    });
+
+    generateOpponentButton.addEventListener('click', () => {
+        fetchRandomPokemon(opponentCardContainer);
+        opponentPokemonSelected = true;
+        checkBattleReady();
+    });
+
+    battleButton.addEventListener('click', () => {
+        if (userPokemonSelected && opponentPokemonSelected) {
+            displayBattleSummary();
+            battleModal.style.display = 'block';
+        }
+    });
+
+    closeBtns.forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            battleModal.style.display = 'none';
+            chooseBattlePokemonModal.style.display = 'none';
         });
     });
 
-    const createCard = (card) => {
+    window.addEventListener('click', (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+        if (event.target == battleModal) {
+            battleModal.style.display = 'none';
+        }
+        if (event.target == chooseBattlePokemonModal) {
+            chooseBattlePokemonModal.style.display = 'none';
+        }
+    });
+
+    const createCard = (pokemon, container, isStorage) => {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
 
         const cardImage = document.createElement('img');
-        cardImage.src = card.imageUrl;
+        cardImage.src = pokemon.image;
         cardElement.appendChild(cardImage);
 
         const cardBody = document.createElement('div');
@@ -28,129 +78,142 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const cardTitle = document.createElement('h3');
         cardTitle.className = 'card-title';
-        cardTitle.textContent = card.title;
+        cardTitle.textContent = pokemon.name;
         cardBody.appendChild(cardTitle);
 
         const cardText = document.createElement('p');
         cardText.className = 'card-text';
-        cardText.textContent = card.text;
+        cardText.textContent = `HP: ${pokemon.hp} | Attack: ${pokemon.attack}`;
         cardBody.appendChild(cardText);
 
+        if (isStorage && container.id !== 'battle-card-container') {
+            const releaseButton = document.createElement('button');
+            releaseButton.className = 'release-button';
+            releaseButton.textContent = 'Release Pokémon';
+            releaseButton.addEventListener('click', () => {
+                removePokemonFromStorage(pokemon);
+                cardElement.remove();
+            });
+            cardBody.appendChild(releaseButton);
+        }
+
         cardElement.appendChild(cardBody);
-        cardContainer.appendChild(cardElement);
+        container.appendChild(cardElement);
+
+        if (!isStorage) {
+            cardElement.addEventListener('click', () => {
+                saveNewPokemonToStorage(pokemon);
+                createCard(pokemon, storageBoxContainer, true);
+                modal.style.display = 'none';
+            });
+        } else if (container.id === 'battle-storage-container') {
+            cardElement.addEventListener('click', () => {
+                battlePokemonContainer.innerHTML = '';
+                createCard(pokemon, battlePokemonContainer, false);
+                chooseBattlePokemonModal.style.display = 'none';
+                userPokemonSelected = true;
+                checkBattleReady();
+            });
+        }
     };
+
+    const fetchRandomPokemons = (count) => {
+        const randomIds = Array.from({ length: count }, () => Math.floor(Math.random() * 1302));
+        const pokeApi = `https://pokeapi.co/api/v2/pokemon?limit=1500`;
+
+        fetch(pokeApi)
+            .then(response => response.json())
+            .then(data => {
+                starterPokemonContainer.innerHTML = '';
+                randomIds.forEach(id => {
+                    const pokemonName = data.results[id].name;
+                    fetchPokemonByName(pokemonName, starterPokemonContainer);
+                });
+            });
+    };
+
+    const fetchRandomPokemon = (container) => {
+        const randomId = Math.floor(Math.random() * 1302);
+        const pokeApi = `https://pokeapi.co/api/v2/pokemon/${randomId}`;
+
+        fetch(pokeApi)
+            .then(response => response.json())
+            .then(data => {
+                const pokemon = new Pokemon(data);
+                container.innerHTML = '';
+                createCard(pokemon, container, false);
+            });
+    };
+
+    const fetchPokemonByName = (name, container) => {
+        const pokeApi = `https://pokeapi.co/api/v2/pokemon/${name}`;
+
+        fetch(pokeApi)
+            .then(response => response.json())
+            .then(data => {
+                const pokemon = new Pokemon(data);
+                createCard(pokemon, container, false);
+            });
+    };
+
+    class Pokemon {
+        constructor(pokemon) {
+            this.id = pokemon.id;
+            this.name = pokemon.name;
+            this.hp = pokemon.stats[0].base_stat;
+            this.attack = pokemon.stats[1].base_stat;
+            this.image = pokemon.sprites.front_default;
+        }
+    }
+
+    const getStoragePokemonsFromLocalStorage = () => {
+        return JSON.parse(localStorage.getItem('storagePokemons')) || [];
+    };
+
+    const setStoragePokemonsToLocalStorage = (pokemonList) => {
+        localStorage.setItem('storagePokemons', JSON.stringify(pokemonList));
+    };
+
+    const saveNewPokemonToStorage = (pokemon) => {
+        const arrayStoragePokemons = getStoragePokemonsFromLocalStorage();
+        arrayStoragePokemons.push(pokemon);
+        setStoragePokemonsToLocalStorage(arrayStoragePokemons);
+    };
+
+    const removePokemonFromStorage = (pokemon) => {
+        let arrayStoragePokemons = getStoragePokemonsFromLocalStorage();
+        arrayStoragePokemons = arrayStoragePokemons.filter(p => p.id !== pokemon.id);
+        setStoragePokemonsToLocalStorage(arrayStoragePokemons);
+    };
+
+    const displayStoredPokemons = () => {
+        const storedPokemons = getStoragePokemonsFromLocalStorage();
+        storedPokemons.forEach(pokemon => createCard(pokemon, storageBoxContainer, true));
+    };
+
+    const displayStoredPokemonsForBattle = () => {
+        const storedPokemons = getStoragePokemonsFromLocalStorage();
+        battleStorageContainer.innerHTML = ''; // Clear previous options
+        storedPokemons.forEach(pokemon => createCard(pokemon, battleStorageContainer, true));
+    };
+
+    const checkBattleReady = () => {
+        if (userPokemonSelected && opponentPokemonSelected) {
+            battleButton.disabled = false;
+        }
+    };
+
+    const displayBattleSummary = () => {
+        battleSummaryContainer.innerHTML = ''; // Clear previous summary
+        const userPokemon = battlePokemonContainer.querySelector('.card').cloneNode(true);
+        const opponentPokemon = opponentCardContainer.querySelector('.card').cloneNode(true);
+        battleSummaryContainer.appendChild(userPokemon);
+        const vsElement = document.createElement('div');
+        vsElement.className = 'vs';
+        vsElement.innerHTML = '<p>VS</p>';
+        battleSummaryContainer.appendChild(vsElement);
+        battleSummaryContainer.appendChild(opponentPokemon);
+    };
+
+    displayStoredPokemons();
 });
-
-
-
-// class pokemon for create newPokemon
-class Pokemon {
-    constructor(pokemon) {
-        this.id = pokemon.id;
-        this.name = pokemon.name;
-        this.hp = pokemon.stats[0].base_stat;
-        this.attack = pokemon.stats[1].base_stat;
-        this.image = pokemon.sprites.other[`official-artwork`].front_default;
-    }
-}
-
-// get pokemon array user
-function getUserPokemonsFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("userPokemons")) || [];
-}
-
-// save pokemons array for user
-function setUserPokemonsToLocalStorage(pokemonList) {
-    localStorage.setItem(`userPokemons`, JSON.stringify(pokemonList));
-}
-
-// get info about current pokemon computer
-function getEnemyPokemonFromLocalStorage() {
-    return JSON.parse(localStorage.getItem("enemyPokemon"));
-}
-
-// save info about random pokemon
-function setEnemyPokemonToLocalStorage(pokemon) {
-    const newPokemon = new Pokemon(pokemon)
-    localStorage.setItem(`enemyPokemon`, JSON.stringify(newPokemon));
-}
-
-// get data list pokemons
-async function fetchRandomPokemon() {
-    // random 1302 pokemons have in api
-    const randomPokemon = Math.floor(Math.random() * 1302)
-    const pokeApi = `https://pokeapi.co/api/v2/pokemon?limit=1500`
-    // If we have Data
-    if (dataPokemons) {
-        // find Pokemon by name
-        const pokemon = await fetchPokemonByName(dataPokemons.results[randomPokemon].name);
-        console.log(`data already`);
-        console.log(pokemon);
-        return pokemon;
-    } else {
-        // If we no have Data
-        const response = await fetch(pokeApi);
-
-        dataPokemons = await response.json();
-        const pokemon = await fetchPokemonByName(dataPokemons.results[randomPokemon].name);
-        console.log(`data not already`);
-        console.log(pokemon);
-        return pokemon;
-    }
-}
-
-// request Pokemon by name
-async function fetchPokemonByName(pokemon) {
-    const pokeApi = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-    const response = await fetch(pokeApi);
-    const data = await response.json();
-
-    // TEST
-    console.log(`DATAPOKEMONS`);
-    console.log(data.name);
-    console.log(data);
-
-    let pokemonS = data;
-    saveNewPokemonForUser(pokemonS);
-    setEnemyPokemonToLocalStorage(pokemonS);
-    let newPokemonObj = new Pokemon(pokemonS);
-    console.log(newPokemonObj);
-
-    return newPokemonObj;
-}
-
-function saveNewPokemonForUser(pokemon) {
-    arrayUserPokemons = getUserPokemonsFromLocalStorage();
-
-    const newPokemon = new Pokemon(pokemon);
-
-    const existingPokemonIndex = arrayUserPokemons.findIndex(p => p.id === newPokemon.id);
-    // if we have pokemon then not save
-    if (existingPokemonIndex !== -1) {
-        return
-        // if we no have pokemon, add new pokemon for user
-    } else {
-        arrayUserPokemons.push(newPokemon);
-        setUserPokemonsToLocalStorage(arrayUserPokemons);
-    }
-}
-
-
-fetch("https://icanhazdadjoke.com/", {
-    method: 'GET', //GET is the default.
-    credentials: 'same-origin', // include, *same-origin, omit
-    redirect: 'follow',
-    headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }// manual, *follow, error
-})
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
-    });
-
-
-fetchRandomPokemon();

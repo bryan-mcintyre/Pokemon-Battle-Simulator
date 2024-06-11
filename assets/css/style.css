@@ -16,6 +16,13 @@ header {
     margin-top: 25px;
 }
 
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 p {
     color: #FFCC00;
     text-shadow: -2px 2px 3px #3b4cca;
@@ -29,7 +36,7 @@ p {
 .box {
     background-color: #cc0000;
     height: 100%;
-    border-style:inset;
+    border-style: inset;
     border-width: 10px;
     border-color: #3b4cca;
 }
@@ -38,6 +45,41 @@ p {
     margin: 15px;
     box-shadow: 5px 5px 3px black;
     border-radius: 5.5%;
+    width: 500px; 
+    height: auto; 
+}
+
+.storage-cell {
+    width: 80%; 
+}
+
+.battle-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.battle-card-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.battle-card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.vs {
+    font-size: 2rem;
+    color: #FFCC00;
+    font-weight: bold;
+    margin: 0 20px; 
 }
 
 .button {
@@ -48,8 +90,9 @@ p {
     background-color: black;
     border-color: white;
     border-width: 5px;
-    border-style:double;
+    border-style: double;
     text-shadow: 1px 1px 4px #FFCC00;
+    margin-top: 20px; 
 }
 
 .button:hover {
@@ -59,6 +102,7 @@ p {
 .grid {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; 
 }
 
 .card-container {
@@ -66,33 +110,43 @@ p {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    width: 100%; 
 }
 
 .card {
-    background-color: #cc0000;
+    background-color: #3b4cca;
     border: 8px solid #ddd;
     border-radius: 8px;
     border-style: inset;
-    border-color:#3b4cca;
+    border-color: #FFCC00;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 200px;
+    width: 150px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card img {
-    width: 100%;
-    height: auto;
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
 }
 
 .card-body {
-    padding: 15px;
+    padding: 5px;
+    text-align: center;
+    width: 100%; 
+    box-sizing: border-box; 
 }
 
 .card-title {
-    font-size: 25px;
-    margin: 0 0 10px;
+    font-size: 18px;
+    margin: 0 0 5px;
     font-weight: bold;
-    color:#FFCC00;
+    color: #FFCC00;
     text-shadow: -2px 2px 3px #3b4cca;
     text-decoration: underline;
 }
@@ -100,7 +154,7 @@ p {
 .card-text {
     color: #FFCC00;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 14px;
     text-decoration: none;
 }
 
@@ -110,9 +164,62 @@ p {
     height: auto;
 }
 
-main {
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.release-button {
+    background-color: #0075BE;
+    color: white;
+    border: double;
+    border-color: black;
+    border-radius: 10%;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.release-button:hover {
+    background-color: #cc0000;
+}
+
+#battle-button {
+    margin-top: 20px; 
+    width: 100%;
+    height: 40px;
+    border-style:inset;
+    border-radius: 10%;
 }
