@@ -29,6 +29,11 @@ p {
     text-decoration: underline;
 }
 
+img {
+    width: 200px;
+    height: 200px;
+}
+
 .title {
     color: #FFCC00;
 }
@@ -50,7 +55,7 @@ p {
 }
 
 .storage-cell {
-    width: 80%; 
+    width: 95%; 
 }
 
 .battle-container {
@@ -121,8 +126,8 @@ p {
     border-color: #FFCC00;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 150px;
-    height: 250px;
+    width: 200px;
+    height: 315px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -130,8 +135,8 @@ p {
 }
 
 .card img {
-    max-width: 80px;
-    max-height: 80px;
+    max-width: 150px;
+    max-height: 150px;
     object-fit: contain;
 }
 
@@ -144,6 +149,7 @@ p {
 
 .card-title {
     font-size: 18px;
+    text-transform:capitalize;
     margin: 0 0 5px;
     font-weight: bold;
     color: #FFCC00;

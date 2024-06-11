@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.name = pokemon.name;
             this.hp = pokemon.stats[0].base_stat;
             this.attack = pokemon.stats[1].base_stat;
-            this.image = pokemon.sprites.front_default;
+            this.image = pokemon.sprites.other[`official-artwork`].front_default;
         }
     }
 
@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const displayStoredPokemonsForBattle = () => {
         const storedPokemons = getStoragePokemonsFromLocalStorage();
-        battleStorageContainer.innerHTML = ''; // Clear previous options
+        battleStorageContainer.innerHTML = ''; 
         storedPokemons.forEach(pokemon => createCard(pokemon, battleStorageContainer, true));
     };
 
@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const displayBattleSummary = () => {
-        battleSummaryContainer.innerHTML = ''; // Clear previous summary
+        battleSummaryContainer.innerHTML = '';
         const userPokemon = battlePokemonContainer.querySelector('.card').cloneNode(true);
         const opponentPokemon = opponentCardContainer.querySelector('.card').cloneNode(true);
         battleSummaryContainer.appendChild(userPokemon);
