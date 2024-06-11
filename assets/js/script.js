@@ -1,8 +1,3 @@
-let dataPokemons;
-let pokemonS;
-const dadJokeApi = "https://icanhazdadjoke.com/"
-
-
 document.addEventListener('DOMContentLoaded', () => {
     const storageBoxContainer = document.getElementById('storage-box-container');
     const chooseStarterButton = document.getElementById('choose-starter-button');
@@ -22,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const storageCell = document.querySelector('.storage-cell');
 
 
+    const dadJokeApi = "https://icanhazdadjoke.com/"
+    let dataPokemons = null;
     let userPokemonSelected = null;
     let opponentPokemonSelected = null;
     let isStorageVisible = false;
@@ -147,21 +144,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const randomIds = Array.from({ length: count }, () => Math.floor(Math.random() * 1302));
         const pokeApi = `https://pokeapi.co/api/v2/pokemon?limit=1500`;
 
-        fetch(pokeApi)
-            .then(response => response.json())
-            .then(data => {
-                starterPokemonContainer.innerHTML = '';
-                randomIds.forEach(id => {
-                    const pokemonName = data.results[id].name;
-                    fetchPokemonByName(pokemonName, starterPokemonContainer);
-                });
+        if (dataPokemons) {
+            starterPokemonContainer.innerHTML = '';
+            randomIds.forEach(id => {
+                const pokemonName = dataPokemons.results[id].name;
+                fetchPokemonByName(pokemonName, starterPokemonContainer);
             });
+        } else {
+            fetch(pokeApi)
+                .then(response => response.json())
+                .then(data => {
+                    dataPokemons = data;
+                    starterPokemonContainer.innerHTML = '';
+                    randomIds.forEach(id => {
+                        const pokemonName = data.results[id].name;
+                        fetchPokemonByName(pokemonName, starterPokemonContainer);
+                    });
+                });
+        };
     };
 
-    const fetchRandomPokemon = (container, callback) => {
-        const randomId = Math.floor(Math.random() * 1302);
-        const pokeApi = `https://pokeapi.co/api/v2/pokemon/${randomId}`;
 
+    const fetchRandomPokemon = (container, callback) => {
+        const random = Math.floor(Math.random() * 1302);
+        const randomName = dataPokemons.results[random].name;
+
+        const pokeApi = `https://pokeapi.co/api/v2/pokemon/${randomName}`;
         fetch(pokeApi)
             .then(response => response.json())
             .then(data => {
@@ -312,5 +320,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    isAuthorized();
+    const fetchData = () => {
+        const apiURL = 'https://pokeapi.co/api/v2/pokemon?limit=1500';
+
+        return fetch(apiURL)
+            .then(response => response.json())
+            .then(data => {
+                dataPokemons = data;
+                console.log('Data fetched and saved:', dataPokemons);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    };
+
+    function init() {
+        isAuthorized();
+        fetchData();
+    }
+
+    init();
 });
