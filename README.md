@@ -41,7 +41,7 @@ https://github.com/bryan-mcintyre/Pokemon-Battle-Simulator
 
 ## Credits
 Aleksandr Polbennikov
-Colin Taaffee
+Colin Taaffe
 Bryan McIntyre
 
 
