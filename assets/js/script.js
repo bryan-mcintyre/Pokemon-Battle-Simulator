@@ -233,6 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkBattleReady = () => {
         if (userPokemonSelected && opponentPokemonSelected) {
             battleButton.disabled = false;
+        } else {
+            battleButton.disabled = true;
         }
     };
 
@@ -273,11 +275,20 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log("User win", `${userPokemon.hp} enemy: ${enemyPokemon.hp}`)
             enemyPokemon.hp = defaultHpEnemyPokemon;
             saveNewPokemonToStorage(enemyPokemon);
+            setNullCurrentPokemons();
+            checkBattleReady();
             return isWinUser;
         } else {
             console.log(`User lost ${userPokemon.hp} enemy: ${enemyPokemon.hp}`)
+            setNullCurrentPokemons();
+            checkBattleReady();
             return !isWinUser;
         }
+    }
+
+    function setNullCurrentPokemons() {
+        userPokemonSelected = null;
+        opponentPokemonSelected = null;
     }
 
 
