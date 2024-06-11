@@ -1,5 +1,6 @@
 let dataPokemons;
 let pokemonS;
+const dadJokeApi = "https://icanhazdadjoke.com/"
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,12 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
         cardElement.appendChild(cardBody);
         cardContainer.appendChild(cardElement);
     };
-}); const dadJokeApi = "https://icanhazdadjoke.com/"
+});
 
 
 
 // class pokemon for create newPokemon
-//TODO: sprites.other.sprites.official art work
 class Pokemon {
     constructor(pokemon) {
         this.id = pokemon.id;
@@ -76,46 +76,47 @@ function setEnemyPokemonToLocalStorage(pokemon) {
 }
 
 // get data list pokemons
-function fetchRandomPokemon() {
+async function fetchRandomPokemon() {
     // random 1302 pokemons have in api
     const randomPokemon = Math.floor(Math.random() * 1302)
     const pokeApi = `https://pokeapi.co/api/v2/pokemon?limit=1500`
     // If we have Data
     if (dataPokemons) {
         // find Pokemon by name
-        fetchPokemonByName(dataPokemons.results[randomPokemon].name)
+        const pokemon = await fetchPokemonByName(dataPokemons.results[randomPokemon].name);
+        console.log(`data already`);
+        console.log(pokemon);
+        return pokemon;
     } else {
         // If we no have Data
-        fetch(pokeApi)
-            .then(function (response) {
-                // get results about all pokemons
-                return response.json()
-            })
-            .then(function (data) {
-                dataPokemons = data;
-                fetchPokemonByName(dataPokemons.results[randomPokemon].name)
-                console.log(data)
-            })
+        const response = await fetch(pokeApi);
+
+        dataPokemons = await response.json();
+        const pokemon = await fetchPokemonByName(dataPokemons.results[randomPokemon].name);
+        console.log(`data not already`);
+        console.log(pokemon);
+        return pokemon;
     }
 }
 
-// request Pokemon
-function fetchPokemonByName(pokemon) {
+// request Pokemon by name
+async function fetchPokemonByName(pokemon) {
     const pokeApi = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-    fetch(pokeApi)
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (data) {
-            // TEST
-            console.log(`DATAPOKEMONS`)
-            console.log(data.name)
-            console.log(data)
-            testPoke = data.sprites.other[`official-artwork`].front_default;
-            pokemonS = data;
-            saveNewPokemonForUser(pokemonS);
-            setEnemyPokemonToLocalStorage(pokemonS);
-        })
+    const response = await fetch(pokeApi);
+    const data = await response.json();
+
+    // TEST
+    console.log(`DATAPOKEMONS`);
+    console.log(data.name);
+    console.log(data);
+
+    let pokemonS = data;
+    saveNewPokemonForUser(pokemonS);
+    setEnemyPokemonToLocalStorage(pokemonS);
+    let newPokemonObj = new Pokemon(pokemonS);
+    console.log(newPokemonObj);
+
+    return newPokemonObj;
 }
 
 function saveNewPokemonForUser(pokemon) {
