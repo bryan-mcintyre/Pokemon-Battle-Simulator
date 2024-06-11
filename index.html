@@ -17,23 +17,69 @@
       <div class="cell">
         <form class="box">
           <p class="title">Your Pokémon</p>
-          <button id="create-card-button" type="button" class="button">Choose your Pokémon!</button>
+          <button id="choose-starter-button" type="button" class="button">Choose your starter Pokémon!</button>
           <p class="subtitle"></p>
         </form>
-        <div id="card-container" class="card-container"></div>
+        <div id="your-card-container" class="card-container"></div>
+      </div>
+      <div class="cell storage-cell">
+        <form class="box">
+          <p class="title">Storage Box</p>
+          <div id="storage-box-container" class="card-container"></div>
+        </form>
       </div>
       <div class="cell">
-        <form class="box">
-          <p class="title">Opponent Pokémon</p>
-          <button id="create-card-button" type="button" class="button">Generate Opponent Pokémon!</button>
-          <p class="subtitle"></p>
+        <form class="box battle-container">
+          <p class="title">Prepare for Battle</p>
+          <div class="battle-card-row">
+            <div id="battle-card-container" class="battle-card-container"></div>
+            <div class="vs">
+              <p>VS</p>
+            </div>
+            <div id="opponent-card-container" class="battle-card-container"></div>
+          </div>
+          <button id="choose-battle-pokemon-button" type="button" class="button">Choose your Pokémon</button>
+          <button id="generate-opponent-button" type="button" class="button">Generate Opponent Pokémon!</button>
+          <button id="battle-button" type="button" class="button" disabled>Click here to battle!</button>
         </form>
-        <div id="card-container" class="card-container"></div>
       </div>
     </div>
   </main>
+
+  <div id="pokemonModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <span class="close">&times;</span>
+        <p id="modal-title">Choose your Pokémon</p>
+        <div id="starter-pokemon-container" class="card-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chooseBattlePokemonModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <span class="close">&times;</span>
+        <p class="title">Choose Your Pokémon for Battle</p>
+        <div id="battle-storage-container" class="card-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="battleModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <span class="close">&times;</span>
+        <p class="title">Battle!</p>
+        <div id="battle-summary-container" class="card-container"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
