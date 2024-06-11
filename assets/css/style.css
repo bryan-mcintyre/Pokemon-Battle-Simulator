@@ -311,3 +311,11 @@ img {
 #storage-box-container {
     display: none;
 }
+
+.authorized #unauthorized {
+    display: none;
+}
+
+.unauthorized #authorized {
+    display: none;
+}
