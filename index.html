@@ -16,8 +16,8 @@
     <div class="grid">
       <div class="cell">
         <form class="box">
-          <p class="title">Your Pokémon</p>
-          <button id="choose-starter-button" type="button" class="button">Choose your starter Pokémon!</button>
+          <p class="title">Choose your starter Pokémon!</p>
+          <button id="choose-starter-button" type="button" class="starter-button">Choose your starter Pokémon!</button>
           <p class="subtitle"></p>
         </form>
         <div id="your-card-container" class="card-container"></div>
@@ -41,8 +41,9 @@
       <div class="cell storage-cell">
         <form class="box">
           <p class="title">Storage Box</p>
-          <div id="storage-box-container" class="card-container"></div>
-        </form>
+          <button id="toggle-storage-button" type="button" class="storage-button">Toggle Owned Pokémon</button>
+          <div id="storage-box-container" class="card-container hidden"></div>
+          </form>
       </div>
       
   </main>
