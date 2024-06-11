@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userPokemonSelected && opponentPokemonSelected) {
             displayBattleSummary();
             battleModal.style.display = 'block';
+            let isWin = battle(userPokemonSelected, opponentPokemonSelected);
+            // TODO: if win then text WINNER, Congratulations you catch {name Pokemon}
+            // TODO: if loose then text LOOSE, DadJoke
         }
     });
 
@@ -193,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const displayStoredPokemonsForBattle = () => {
         const storedPokemons = getStoragePokemonsFromLocalStorage();
-        battleStorageContainer.innerHTML = ''; 
+        battleStorageContainer.innerHTML = '';
         storedPokemons.forEach(pokemon => createCard(pokemon, battleStorageContainer, true));
     };
 
@@ -216,4 +219,33 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     displayStoredPokemons();
+
+    // take 2 objects pokemon
+    function battle(userPokemon, enemyPokemon) {
+        // who is win
+        let isWinUser = true;
+
+        // if true, then move userPokemon if false move enemy's
+        let currentAttack = true;
+
+
+        while (userPokemon.hp > 0 && enemyPokemon.hp > 0) {
+            if (currentAttack) {
+                currentAttack = !currentAttack;
+                enemyPokemon.hp -= userPokemon.attack;
+            } else {
+                currentAttack = !currentAttack;
+                userPokemon.hp -= enemyPokemon.attack;
+            }
+        }
+
+        if (userPokemon.hp > 0) {
+            saveNewPokemonToStorage(enemyPokemon);
+            return isWinUser;
+        } else {
+            return !isWinUser;
+        }
+    }
+
+    getTwoPokemons();
 });
