@@ -36,6 +36,7 @@ img {
 
 .title {
     color: #FFCC00;
+    font-size: 35px;
 }
 
 .box {
@@ -47,15 +48,18 @@ img {
 }
 
 .cell {
-    margin: 15px;
+    margin: 25px;
     box-shadow: 5px 5px 3px black;
     border-radius: 5.5%;
-    width: 500px; 
-    height: auto; 
+    width: 750px;
+    height: auto;
 }
 
 .storage-cell {
-    width: 95%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 15%;
 }
 
 .battle-container {
@@ -84,7 +88,7 @@ img {
     font-size: 2rem;
     color: #FFCC00;
     font-weight: bold;
-    margin: 0 20px; 
+    margin: 0 20px;
 }
 
 .button {
@@ -97,17 +101,73 @@ img {
     border-width: 5px;
     border-style: double;
     text-shadow: 1px 1px 4px #FFCC00;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .button:hover {
     background-color: #FFCC00;
 }
 
+.starter-button {
+    width: 690px;
+    height: 50px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: black;
+    border-color: white;
+    border-width: 5px;
+    border-style: double;
+    text-shadow: 1px 1px 4px #FFCC00;
+    margin-top: 20px;
+}
+
+.starter-button:hover {
+    background-color: #FFCC00;
+}
+
+.storage-button {
+    width: 250px;
+    height: 35px;
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    border-color: white;
+    border-width: 5px;
+    border-style: double;
+    text-shadow: 1px 1px 4px #FFCC00;
+    margin-bottom: 20px;
+}
+
+.storage-button:hover {
+    background-color: #FFCC00;
+}
+
+.storage-cell.expanded {
+    width: auto;
+}
+
+#storage-box-container.expanded {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.storage-cell.collapsed {
+    width: 15%;
+}
+
+#storage-box-container.collapsed {
+    display: none;
+}
+
+
 .grid {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
 }
 
 .card-container {
@@ -115,7 +175,7 @@ img {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
-    width: 100%; 
+    width: 100%;
 }
 
 .card {
@@ -143,13 +203,13 @@ img {
 .card-body {
     padding: 5px;
     text-align: center;
-    width: 100%; 
-    box-sizing: border-box; 
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .card-title {
     font-size: 18px;
-    text-transform:capitalize;
+    text-transform: capitalize;
     margin: 0 0 5px;
     font-weight: bold;
     color: #FFCC00;
@@ -222,10 +282,32 @@ img {
     background-color: #cc0000;
 }
 
+.hidden {
+    display: none;
+}
+
+.storage-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #cc0000;
+    border-style: inset;
+    border-width: 10px;
+    border-color: #3b4cca;
+    box-shadow: 5px 5px 3px black;
+    border-radius: 5.5%;
+    margin: 0;
+}
+
 #battle-button {
-    margin-top: 20px; 
+    margin-top: 20px;
     width: 100%;
     height: 40px;
-    border-style:inset;
+    border-style: inset;
     border-radius: 10%;
+}
+
+#storage-box-container {
+    display: none;
 }

@@ -18,9 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const opponentCardContainer = document.getElementById('opponent-card-container');
     const battleStorageContainer = document.getElementById('battle-storage-container');
     const battleSummaryContainer = document.getElementById('battle-summary-container');
+    const toggleStorageButton = document.getElementById('toggle-storage-button');
+    const storageCell = document.querySelector('.storage-cell');
 
+  
     let userPokemonSelected = false;
     let opponentPokemonSelected = false;
+    let isStorageVisible = false;
 
     chooseStarterButton.addEventListener('click', () => {
         fetchRandomPokemons(3);
@@ -67,6 +71,22 @@ document.addEventListener('DOMContentLoaded', () => {
             chooseBattlePokemonModal.style.display = 'none';
         }
     });
+
+    toggleStorageButton.addEventListener('click', () => {
+        isStorageVisible = !isStorageVisible;
+        if (isStorageVisible) {
+            storageBoxContainer.classList.add('expanded');
+            storageBoxContainer.classList.remove('collapsed');
+            storageCell.classList.add('expanded');
+            storageCell.classList.remove('collapsed');
+        } else {
+            storageBoxContainer.classList.add('collapsed');
+            storageBoxContainer.classList.remove('expanded');
+            storageCell.classList.add('collapsed');
+            storageCell.classList.remove('expanded');
+        }
+    });
+
 
     const createCard = (pokemon, container, isStorage) => {
         const cardElement = document.createElement('div');
