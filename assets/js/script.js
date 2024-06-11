@@ -134,8 +134,24 @@ function fetchDadJoke() {
             })
             .then(function (data) {
                 console.log(data.joke);
-                const joke = data.joke
-                localStorage.setItem("Joke", joke)
+
+                function saveDadJoke () {
+                let dadJokes = JSON.parse(localStorage.getItem("DadJokes"))
+
+                if(!dadJokes) {
+                    dadJokes = []
+                }
+
+                if(dadJokes.length > 4) {
+                    return
+                }
+
+                let dadJoke = data.joke
+                dadJokes.push(dadJoke)
+                localStorage.setItem("DadJokes", JSON.stringify(dadJokes))
+            }
+            saveDadJoke ()
+                
                 
             })
 }
