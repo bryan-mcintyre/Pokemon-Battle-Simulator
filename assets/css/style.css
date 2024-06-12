@@ -323,3 +323,11 @@ img {
 .unauthorized #authorized {
     display: none;
 }
+
+.battle-text {
+    font-size: 25px;
+    text-decoration: none;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+}
