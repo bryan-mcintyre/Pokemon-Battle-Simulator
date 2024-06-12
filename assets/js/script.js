@@ -203,10 +203,17 @@ document.addEventListener('DOMContentLoaded', () => {
     class Pokemon {
         constructor(pokemon) {
             this.id = pokemon.id;
-            this.name = pokemon.name;
+            this.name = this.capitalizeName(pokemon.name);
             this.hp = pokemon.stats[0].base_stat;
             this.attack = pokemon.stats[1].base_stat;
             this.image = pokemon.sprites.other[`official-artwork`].front_default;
+        }
+
+        capitalizeName(name) {
+            if (name && name.length > 0) {
+                return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+            }
+            return name;
         }
     }
 
