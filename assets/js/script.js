@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 clearInterval(interval);
-                battleText.textContent = userPokemon.hp > 0 ? `Congratulations you catch a ${enemyPokemon.name}` : `You lose! Have a Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
+                battleText.textContent = userPokemon.hp > 0 ? `Congratulations you caught a ${enemyPokemon.name}` : `You lose! Have a Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
 
                 if (userPokemon.hp > 0) {
                     enemyPokemon.hp = defaultHpEnemyPokemon;
