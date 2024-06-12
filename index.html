@@ -12,28 +12,76 @@
 
 <body>
   <header><img src="./assets/img/d9069cd4c6cebc8776d039de83538f1a.png" alt="Header img" class="header-image"></header>
-  <main>
+  <main class="unauthorized">
     <div class="grid">
-      <div class="cell">
+      <div class="cell" id="unauthorized">
         <form class="box">
-          <p class="title">Your Pokémon</p>
-          <button id="create-card-button" type="button" class="button">Choose your Pokémon!</button>
+          <p class="title">Choose your starter Pokémon!</p>
+          <button id="choose-starter-button" type="button" class="starter-button">Choose your starter Pokémon!</button>
           <p class="subtitle"></p>
         </form>
-        <div id="card-container" class="card-container"></div>
+        <div id="your-card-container" class="card-container"></div>
       </div>
-      <div class="cell">
-        <form class="box">
-          <p class="title">Opponent Pokémon</p>
-          <button id="create-card-button" type="button" class="button">Generate Opponent Pokémon!</button>
-          <p class="subtitle"></p>
+      <div class="cell" id="authorized">
+        <form class="box battle-container">
+          <p class="title">Prepare for Battle</p>
+          <div class="battle-card-row">
+            <div id="battle-card-container" class="battle-card-container"></div>
+            <div class="vs">
+              <p>VS</p>
+            </div>
+            <div id="opponent-card-container" class="battle-card-container"></div>
+          </div>
+          <button id="choose-battle-pokemon-button" type="button" class="button">Choose your Pokémon</button>
+          <button id="generate-opponent-button" type="button" class="button">Generate Opponent Pokémon!</button>
+          <button id="battle-button" type="button" class="button" disabled>Click here to battle!</button>
         </form>
-        <div id="card-container" class="card-container"></div>
       </div>
     </div>
+    <div class="cell storage-cell" id="authorized">
+      <form class="box">
+        <p class="title">Storage Box</p>
+        <button id="toggle-storage-button" type="button" class="storage-button">Toggle Owned Pokémon</button>
+        <div id="storage-box-container" class="card-container hidden"></div>
+      </form>
+    </div>
+
   </main>
+
+  <div id="pokemonModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <span class="close">&times;</span>
+        <p id="modal-title">Choose your Pokémon</p>
+        <div id="starter-pokemon-container" class="card-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="chooseBattlePokemonModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <span class="close">&times;</span>
+        <p class="title">Choose Your Pokémon for Battle</p>
+        <div id="battle-storage-container" class="card-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="battleModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <span class="close">&times;</span>
+        <p class="title">Battle!</p>
+        <div id="battle-summary-container" class="card-container"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="./assets/js/script.js"></script>
-    <script src="./assets/js/script.js"></script>
 </body>
 
 </html>
