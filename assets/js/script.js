@@ -210,10 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         capitalizeName(name) {
-            if (name && name.length > 0) {
-                return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-            }
-            return name;
+            if (!name) return '';
+
+            return name
+                .split('-')
+                .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+                .join('-');
         }
     }
 
@@ -322,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (userPokemon.hp > 0) {
                     enemyPokemon.hp = defaultHpEnemyPokemon;
                     saveNewPokemonToStorage(enemyPokemon);
+                    createCard(enemyPokemon, storageBoxContainer, true);
                     setNullCurrentPokemons();
                     checkBattleReady();
                     return isWinUser;
