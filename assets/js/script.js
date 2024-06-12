@@ -101,23 +101,7 @@ function fetchRandomPokemon() {
     }
 }
 
-// request Pokemon
-function fetchPokemonByName(pokemon) {
-    const pokeApi = `https://pokeapi.co/api/v2/pokemon/${pokemon}`
-    fetch(pokeApi)
-        .then(function (response) {
-            return response.json()
-        })
-        .then(function (data) {
-            // TEST
-            console.log(`DATAPOKEMONS`)
-            console.log(data.name)
-            console.log(data)
-            pokemonS = data;
-            saveNewPokemonForUser(pokemonS);
-            setEnemyPokemonToLocalStorage(pokemonS);
-        })
-}
+
 
 function fetchDadJoke() {
     fetch("https://icanhazdadjoke.com/", {
