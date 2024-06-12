@@ -295,10 +295,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (timer === 0) {
                     if (currentAttack) {
-                        battleText.textContent = `Your move ${timer}`;
+                        battleText.textContent = `Your turn ${timer}`;
                         enemyPokemon.hp -= userPokemon.attack;
                     } else {
-                        battleText.textContent = `Enemy move ${timer}`;
+                        battleText.textContent = `Enemy turn ${timer}`;
                         userPokemon.hp -= enemyPokemon.attack;
                     }
 
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 clearInterval(interval);
-                battleText.textContent = userPokemon.hp > 0 ? `Congratulation you catch a ${enemyPokemon.name}` : `You lose!, so take Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
+                battleText.textContent = userPokemon.hp > 0 ? `Congratulations you catch a ${enemyPokemon.name}` : `You lose! Have a Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
 
                 if (userPokemon.hp > 0) {
                     enemyPokemon.hp = defaultHpEnemyPokemon;
