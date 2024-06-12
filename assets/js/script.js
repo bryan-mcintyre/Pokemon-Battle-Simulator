@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const battleSummaryContainer = document.getElementById('battle-summary-container');
     const toggleStorageButton = document.getElementById('toggle-storage-button');
     const storageCell = document.querySelector('.storage-cell');
+    const battleText = document.querySelector('.battle-text');
+
+
 
 
     const dadJokeApi = "https://icanhazdadjoke.com/"
@@ -250,6 +253,8 @@ document.addEventListener('DOMContentLoaded', () => {
         battleSummaryContainer.innerHTML = '';
         const userPokemon = battlePokemonContainer.querySelector('.card').cloneNode(true);
         const opponentPokemon = opponentCardContainer.querySelector('.card').cloneNode(true);
+        userPokemon.querySelector('.card-text').id = "user-pokemon";
+        opponentPokemon.querySelector('.card-text').id = "opponent-pokemon";
         battleSummaryContainer.appendChild(userPokemon);
         const vsElement = document.createElement('div');
         vsElement.className = 'vs';
@@ -262,36 +267,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // take 2 objects pokemon
     function battle(userPokemon, enemyPokemon) {
+        const opponentPokemonBattle = document.getElementById('opponent-pokemon');
+        const userPokemonBattle = document.getElementById('user-pokemon');
         // who is win
         let isWinUser = true;
         const defaultHpEnemyPokemon = enemyPokemon.hp;
         // if true, then move userPokemon if false move enemy's
         let currentAttack = true;
+        let timer = 5;
 
-
-        while (userPokemon.hp > 0 && enemyPokemon.hp > 0) {
-            if (currentAttack) {
-                currentAttack = !currentAttack;
-                enemyPokemon.hp -= userPokemon.attack;
-            } else {
-                currentAttack = !currentAttack;
-                userPokemon.hp -= enemyPokemon.attack;
+        function updateBattleUI() {
+            if (userPokemon.hp < 0) {
+                userPokemon.hp = 0;
             }
+            if (enemyPokemon.hp < 0) {
+                enemyPokemon.hp = 0;
+            }
+            userPokemonBattle.textContent = `HP: ${userPokemon.hp} | Attack: ${userPokemon.attack}`;
+            opponentPokemonBattle.textContent = `HP: ${enemyPokemon.hp} | Attack: ${enemyPokemon.attack}`;
         }
 
-        if (userPokemon.hp > 0) {
-            console.log("User win", `${userPokemon.hp} enemy: ${enemyPokemon.hp}`)
-            enemyPokemon.hp = defaultHpEnemyPokemon;
-            saveNewPokemonToStorage(enemyPokemon);
-            setNullCurrentPokemons();
-            checkBattleReady();
-            return isWinUser;
-        } else {
-            console.log(`User lost ${userPokemon.hp} enemy: ${enemyPokemon.hp}`)
-            setNullCurrentPokemons();
-            checkBattleReady();
-            return !isWinUser;
-        }
+        updateBattleUI();
+
+        const interval = setInterval(() => {
+            if (userPokemon.hp > 0 && enemyPokemon.hp > 0) {
+                battleText.textContent = currentAttack ? `Your move ${timer}` : `Enemy move ${timer}`;
+
+                if (timer === 0) {
+                    if (currentAttack) {
+                        battleText.textContent = `Your move ${timer}`;
+                        enemyPokemon.hp -= userPokemon.attack;
+                    } else {
+                        battleText.textContent = `Enemy move ${timer}`;
+                        userPokemon.hp -= enemyPokemon.attack;
+                    }
+
+                    currentAttack = !currentAttack;
+                    updateBattleUI();
+                    timer = 5;
+                } else {
+                    timer--;
+                }
+            } else {
+                clearInterval(interval);
+                battleText.textContent = userPokemon.hp > 0 ? `Congratulation you catch a ${enemyPokemon.name}` : `You lose!, so take Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
+
+                if (userPokemon.hp > 0) {
+                    enemyPokemon.hp = defaultHpEnemyPokemon;
+                    saveNewPokemonToStorage(enemyPokemon);
+                    setNullCurrentPokemons();
+                    checkBattleReady();
+                    return isWinUser;
+                } else {
+                    setNullCurrentPokemons();
+                    fetchDadJoke();
+                    checkBattleReady();
+                    return !isWinUser;
+                }
+            }
+        }, 1000);
     }
 
     function setNullCurrentPokemons() {
@@ -334,15 +368,20 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
+    function getDadJokeFromLocalStorage() {
+        return JSON.parse(localStorage.getItem("DadJokes"));
+    }
+
     function init() {
         isAuthorized();
+        fetchDadJoke();
         fetchData();
     }
 
 
 
-function fetchDadJoke() {
-    fetch("https://icanhazdadjoke.com/", {
+    function fetchDadJoke() {
+        fetch("https://icanhazdadjoke.com/", {
             method: 'GET', //GET is the default.
             credentials: 'same-origin', // include, *same-origin, omit
             redirect: 'follow',
@@ -355,32 +394,16 @@ function fetchDadJoke() {
                 return response.json();
             })
             .then(function (data) {
-                console.log(data.joke);
+                function saveDadJoke() {
 
-                function saveDadJoke () {
-                let dadJokes = JSON.parse(localStorage.getItem("DadJokes"))
-
-                if(!dadJokes) {
-                    dadJokes = []
+                    let dadJoke = data.joke
+                    localStorage.setItem("DadJokes", JSON.stringify(dadJoke))
                 }
+                saveDadJoke()
 
-                if(dadJokes.length > 4) {
-                    return
-                }
 
-                let dadJoke = data.joke
-                dadJokes.push(dadJoke)
-                localStorage.setItem("DadJokes", JSON.stringify(dadJokes))
-            }
-            saveDadJoke ()
-                
-                
             })
-}
+    }
 
-fetchDadJoke()
-
-
-fetchRandomPokemon();
     init();
 });
