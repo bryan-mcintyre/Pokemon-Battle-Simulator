@@ -339,5 +339,48 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchData();
     }
 
+
+
+function fetchDadJoke() {
+    fetch("https://icanhazdadjoke.com/", {
+            method: 'GET', //GET is the default.
+            credentials: 'same-origin', // include, *same-origin, omit
+            redirect: 'follow',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }// manual, *follow, error
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log(data.joke);
+
+                function saveDadJoke () {
+                let dadJokes = JSON.parse(localStorage.getItem("DadJokes"))
+
+                if(!dadJokes) {
+                    dadJokes = []
+                }
+
+                if(dadJokes.length > 4) {
+                    return
+                }
+
+                let dadJoke = data.joke
+                dadJokes.push(dadJoke)
+                localStorage.setItem("DadJokes", JSON.stringify(dadJokes))
+            }
+            saveDadJoke ()
+                
+                
+            })
+}
+
+fetchDadJoke()
+
+
+fetchRandomPokemon();
     init();
 });
