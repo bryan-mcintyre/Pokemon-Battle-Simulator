@@ -331,3 +331,8 @@ img {
     display: flex;
     justify-content: center;
 }
+
+.control {
+    padding-right: 125px;
+    padding-left: 25px;
+}
