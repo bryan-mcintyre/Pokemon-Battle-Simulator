@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cardText.textContent = `HP: ${pokemon.hp} | Attack: ${pokemon.attack}`;
         cardBody.appendChild(cardText);
 
-        if (isStorage && container.id !== 'battle-card-container') {
+        if (isStorage && container.id !== 'battle-card-container' && container.id !== 'opponent-card-container') {
             const releaseButton = document.createElement('button');
             releaseButton.className = 'release-button';
             releaseButton.textContent = 'Release Pokémon';
@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cardElement.remove();
             });
             cardBody.appendChild(releaseButton);
+
         }
 
         cardElement.appendChild(cardBody);
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (container.id === 'battle-storage-container') {
             cardElement.addEventListener('click', () => {
                 battlePokemonContainer.innerHTML = '';
-                createCard(pokemon, battlePokemonContainer, false);
+                createCard(pokemon, battlePokemonContainer, true);
                 chooseBattlePokemonModal.style.display = 'none';
                 userPokemonSelected = pokemon;
                 checkBattleReady();
@@ -174,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 const pokemon = new Pokemon(data);
                 container.innerHTML = '';
-                createCard(pokemon, container, false);
+                createCard(pokemon, container, true);
                 if (container.id === 'opponent-card-container') {
                     opponentPokemon = pokemon;
                     checkBattleReady();
