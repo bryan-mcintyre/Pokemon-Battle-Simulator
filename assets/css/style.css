@@ -1,12 +1,12 @@
-:root {
+:root { /*colors the background using Pokémon light blue*/
     background: #0075BE;
 }
 
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    align-items: center; /*centers all items in the body*/
+    flex-direction: column; /*makes the storage box go below the battle box as a column*/
     height: 100vh;
     margin: 0;
 }
@@ -24,16 +24,17 @@ main {
 }
 
 p {
-    color: #FFCC00;
+    color: #FFCC00; /*uses Pokémon yellow for all p element text*/
     text-shadow: -2px 2px 3px #3b4cca;
     text-decoration: underline;
-    font-family: "Marcellus", serif;
+    font-family: "Marcellus", serif; /*a google font*/
     font-weight: 400;
     font-style: normal;
     font-size: 40px;
 }
 
 img {
+    /*this is a generated image we made for Pokémon Battle Simulator header*/
     width: 200px;
     height: 200px;
 }
@@ -44,7 +45,7 @@ img {
 }
 
 .box {
-    background-color: #cc0000;
+    background-color: #cc0000; /*colors all boxes with pokéball red*/
     height: 100%;
     border-style: inset;
     border-width: 10px;
@@ -66,6 +67,7 @@ img {
     width: 15%;
 }
 
+/*below 3 are battle card stylings aka the Pokémon cards themselves*/
 .battle-container {
     width: 100%;
     display: flex;
@@ -95,7 +97,7 @@ img {
     margin: 0 20px;
 }
 
-.button {
+.button { /*button styling for all buttons*/
     width: 250px;
     height: 35px;
     color: white;
@@ -108,7 +110,7 @@ img {
     margin-top: 20px;
 }
 
-.button:hover {
+.button:hover { /*makes the buttons turn Pokémon yellow on hover*/
     background-color: #FFCC00;
 }
 
@@ -130,6 +132,7 @@ img {
     background-color: #FFCC00;
 }
 
+/*next 6 all style the storage container which holds the user's owned Pokémon*/
 .storage-button {
     width: 250px;
     height: 35px;
@@ -148,16 +151,17 @@ img {
 }
 
 .storage-cell.expanded {
-    width: auto;
+    width: auto; /*this makes the container expand as the user collects more Pokémon*/
 }
 
 #storage-box-container.expanded {
-    display: flex;
+    display: flex; /*this makes the container expand as the user collects more Pokémon*/
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
 }
 
+/*these next two style the untoggled storage container aka when it is not showing the user's owned Pokémon*/
 .storage-cell.collapsed {
     width: 15%;
 }
@@ -182,7 +186,7 @@ img {
     width: 100%;
 }
 
-.card {
+.card { /*this styles all of the Pokémon cards as they are created by javascript*/
     background-color: #3b4cca;
     border: 8px solid #ddd;
     border-radius: 8px;
@@ -234,7 +238,7 @@ img {
     height: auto;
 }
 
-.modal {
+.modal { /*styles the modals*/
     display: none;
     position: fixed;
     z-index: 1;
@@ -270,6 +274,7 @@ img {
     cursor: pointer;
 }
 
+/*styles the release Pokémon button which is printed on all user owned cards*/
 .release-button {
     background-color: #0075BE;
     color: white;
@@ -332,7 +337,8 @@ img {
     justify-content: center;
 }
 
-.control {
+.control { 
+    /*this adjusts the two battle side buttons*/
     padding-right: 125px;
     padding-left: 25px;
 }
