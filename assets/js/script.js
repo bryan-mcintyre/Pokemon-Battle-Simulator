@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    const dadJokeApi = "https://icanhazdadjoke.com/"
     let dataPokemons = null;
     let userPokemonSelected = null;
     let opponentPokemonSelected = null;
@@ -47,10 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userPokemonSelected && opponentPokemonSelected) {
             displayBattleSummary();
             battleModal.style.display = 'block';
-            let isWin = battle(userPokemonSelected, opponentPokemonSelected);
-            console.log(isWin);
-            // TODO: if win then text WINNER, Congratulations you catch {name Pokemon}
-            // TODO: if loose then text LOOSE, DadJoke
+            battle(userPokemonSelected, opponentPokemonSelected);
         }
     });
 
@@ -230,13 +226,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveNewPokemonToStorage = (pokemon) => {
         const arrayStoragePokemons = getStoragePokemonsFromLocalStorage();
         arrayStoragePokemons.push(pokemon);
+        arrayStoragePokemons.sort((a, b) => a.name.localeCompare(b.name));
         setStoragePokemonsToLocalStorage(arrayStoragePokemons);
     };
 
     const removePokemonFromStorage = (pokemon) => {
         let arrayStoragePokemons = getStoragePokemonsFromLocalStorage();
-        arrayStoragePokemons = arrayStoragePokemons.filter(p => p.id !== pokemon.id);
-        setStoragePokemonsToLocalStorage(arrayStoragePokemons);
+        const index = arrayStoragePokemons.findIndex(p => p.id === pokemon.id);
+
+        if (index !== -1) {
+            arrayStoragePokemons.splice(index, 1);
+            setStoragePokemonsToLocalStorage(arrayStoragePokemons);
+        }
     };
 
     const displayStoredPokemons = () => {
@@ -250,8 +251,8 @@ document.addEventListener('DOMContentLoaded', () => {
         storedPokemons.forEach(pokemon => createCard(pokemon, battleStorageContainer, true));
     };
 
-    const checkBattleReady = () => {
-        if (userPokemonSelected && opponentPokemonSelected) {
+    const checkBattleReady = (isStartedBattle = true) => {
+        if (userPokemonSelected && opponentPokemonSelected && isStartedBattle) {
             battleButton.disabled = false;
         } else {
             battleButton.disabled = true;
@@ -276,6 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // take 2 objects pokemon
     function battle(userPokemon, enemyPokemon) {
+        checkBattleReady(false);
         const opponentPokemonBattle = document.getElementById('opponent-pokemon');
         const userPokemonBattle = document.getElementById('user-pokemon');
         // who is win
@@ -326,12 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     saveNewPokemonToStorage(enemyPokemon);
                     createCard(enemyPokemon, storageBoxContainer, true);
                     setNullCurrentPokemons();
-                    checkBattleReady();
                     return isWinUser;
                 } else {
                     setNullCurrentPokemons();
                     fetchDadJoke();
-                    checkBattleReady();
                     return !isWinUser;
                 }
             }
