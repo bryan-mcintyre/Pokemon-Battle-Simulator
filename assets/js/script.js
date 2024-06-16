@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // element selectors
     const storageBoxContainer = document.getElementById('storage-box-container');
     const chooseStarterButton = document.getElementById('choose-starter-button');
     const battleButton = document.getElementById('battle-button');
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
+    // Pokemon data so as not to make a request again every time.
     let dataPokemons = null;
     let userPokemonSelected = null;
     let opponentPokemonSelected = null;
@@ -30,11 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'block';
     });
 
+    // choose first pokemon
     chooseBattlePokemonButton.addEventListener('click', () => {
         displayStoredPokemonsForBattle();
         chooseBattlePokemonModal.style.display = 'block';
     });
 
+    // random enemy pokemon
     generateOpponentButton.addEventListener('click', () => {
         fetchRandomPokemon(opponentCardContainer, pokemon => {
             opponentPokemonSelected = pokemon;
@@ -42,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // start battle open modal
     battleButton.addEventListener('click', () => {
         if (userPokemonSelected && opponentPokemonSelected) {
             displayBattleSummary();
@@ -50,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // close buttons
     closeBtns.forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             modal.style.display = 'none';
@@ -58,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // close modal window
     window.addEventListener('click', (event) => {
         if (event.target == modal) {
             modal.style.display = 'none';
@@ -70,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // storage box open close
     toggleStorageButton.addEventListener('click', () => {
         isStorageVisible = !isStorageVisible;
         if (isStorageVisible) {
@@ -85,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
+    // create pokemon cards
     const createCard = (pokemon, container, isStorage) => {
         const cardElement = document.createElement('div');
         cardElement.className = 'card';
@@ -107,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cardText.textContent = `HP: ${pokemon.hp} | Attack: ${pokemon.attack}`;
         cardBody.appendChild(cardText);
 
+        // add release-button  if it's not battle
         if (isStorage && container.id !== 'battle-card-container' && container.id !== 'opponent-card-container') {
             const releaseButton = document.createElement('button');
             releaseButton.className = 'release-button';
@@ -140,10 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // fetch random pokemons data
     const fetchRandomPokemons = (count) => {
+
+        // generate random index
         const randomIds = Array.from({ length: count }, () => Math.floor(Math.random() * 1302));
         const pokeApi = `https://pokeapi.co/api/v2/pokemon?limit=1500`;
 
+        // if data already
         if (dataPokemons) {
             starterPokemonContainer.innerHTML = '';
             randomIds.forEach(id => {
@@ -164,17 +176,22 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-
+    // find opponent random pokemon
     const fetchRandomPokemon = (container, callback) => {
+        // random index
         const random = Math.floor(Math.random() * 1302);
+        // get name pokemon by index
         const randomName = dataPokemons.results[random].name;
 
+        // URL with name pokemon
         const pokeApi = `https://pokeapi.co/api/v2/pokemon/${randomName}`;
         fetch(pokeApi)
             .then(response => response.json())
             .then(data => {
+                // create new pokemon object
                 const pokemon = new Pokemon(data);
                 container.innerHTML = '';
+                // create card
                 createCard(pokemon, container, true);
                 if (container.id === 'opponent-card-container') {
                     opponentPokemon = pokemon;
@@ -186,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
+    // find pokemon by name
     const fetchPokemonByName = (name, container) => {
         const pokeApi = `https://pokeapi.co/api/v2/pokemon/${name}`;
 
@@ -197,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
+    // pokemon object
     class Pokemon {
         constructor(pokemon) {
             this.id = pokemon.id;
@@ -216,21 +235,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // get pokemons from local storage
     const getStoragePokemonsFromLocalStorage = () => {
         return JSON.parse(localStorage.getItem('storagePokemons')) || [];
     };
 
+    // set pokemons to local storage
     const setStoragePokemonsToLocalStorage = (pokemonList) => {
         localStorage.setItem('storagePokemons', JSON.stringify(pokemonList));
     };
 
+    // save new pokemon
     const saveNewPokemonToStorage = (pokemon) => {
         const arrayStoragePokemons = getStoragePokemonsFromLocalStorage();
         arrayStoragePokemons.push(pokemon);
+        // sort array by name
         arrayStoragePokemons.sort((a, b) => a.name.localeCompare(b.name));
         setStoragePokemonsToLocalStorage(arrayStoragePokemons);
     };
 
+    // delete pokemon from storage
     const removePokemonFromStorage = (pokemon) => {
         let arrayStoragePokemons = getStoragePokemonsFromLocalStorage();
         const index = arrayStoragePokemons.findIndex(p => p.id === pokemon.id);
@@ -252,14 +276,18 @@ document.addEventListener('DOMContentLoaded', () => {
         storedPokemons.forEach(pokemon => createCard(pokemon, battleStorageContainer, true));
     };
 
+    // check flags selected and start battle
     const checkBattleReady = (isStartedBattle = true) => {
         if (userPokemonSelected && opponentPokemonSelected && isStartedBattle) {
+            // active button
             battleButton.disabled = false;
         } else {
+            // disable button
             battleButton.disabled = true;
         }
     };
 
+    // display modal battle
     const displayBattleSummary = () => {
         battleSummaryContainer.innerHTML = '';
         const userPokemon = battlePokemonContainer.querySelector('.card').cloneNode(true);
@@ -295,16 +323,18 @@ document.addEventListener('DOMContentLoaded', () => {
             if (enemyPokemon.hp < 0) {
                 enemyPokemon.hp = 0;
             }
+            // update UI hp info for user
             userPokemonBattle.textContent = `HP: ${userPokemon.hp} | Attack: ${userPokemon.attack}`;
             opponentPokemonBattle.textContent = `HP: ${enemyPokemon.hp} | Attack: ${enemyPokemon.attack}`;
         }
 
         updateBattleUI();
-
+        // interval 1 sec
         const interval = setInterval(() => {
             if (userPokemon.hp > 0 && enemyPokemon.hp > 0) {
                 battleText.textContent = currentAttack ? `Your move ${timer}` : `Enemy move ${timer}`;
 
+                // time 0 start function attack
                 if (timer === 0) {
                     if (currentAttack) {
                         battleText.textContent = `Your turn ${timer}`;
@@ -314,6 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         userPokemon.hp -= enemyPokemon.attack;
                     }
 
+                    // next turn
                     currentAttack = !currentAttack;
                     updateBattleUI();
                     timer = 5;
@@ -322,6 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 clearInterval(interval);
+                // if win congratulation, if lost get dad joke
                 battleText.textContent = userPokemon.hp > 0 ? `Congratulations you caught a ${enemyPokemon.name}` : `You lose! Have a Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
 
                 if (userPokemon.hp > 0) {
@@ -339,23 +371,25 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
+    // unsellect pokemons after battle
     function setNullCurrentPokemons() {
         userPokemonSelected = null;
         opponentPokemonSelected = null;
     }
 
-
+    // set authorized if user have 1 pokemon or more
     function setAuthorized() {
         document.querySelector('main').classList.add('authorized');
         document.querySelector('main').classList.remove('unauthorized');
     }
 
-
+    // set unauthorized if user no have pokemons
     function setUnauthorized() {
         document.querySelector('main').classList.add('unauthorized');
         document.querySelector('main').classList.remove('authorized');
     }
 
+    // check collection pokemons from local storage user
     function isAuthorized() {
         const userPokemonsFromStorage = getStoragePokemonsFromLocalStorage();
         if (userPokemonsFromStorage.length > 0) {
@@ -365,6 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // fetch data pokemons when start page
     const fetchData = () => {
         const apiURL = 'https://pokeapi.co/api/v2/pokemon?limit=1500';
 
@@ -372,7 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(response => response.json())
             .then(data => {
                 dataPokemons = data;
-                console.log('Data fetched and saved:', dataPokemons);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -383,6 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return JSON.parse(localStorage.getItem("DadJokes"));
     }
 
+    // init function
     function init() {
         isAuthorized();
         fetchDadJoke();
@@ -390,31 +425,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
+    // fetch dad joke
     function fetchDadJoke() {
         fetch("https://icanhazdadjoke.com/", {
-            method: 'GET', //GET is the default.
-            credentials: 'same-origin', // include, *same-origin, omit
+            method: 'GET',
+            credentials: 'same-origin',
             redirect: 'follow',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-            }// manual, *follow, error
+            }
         })
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
                 function saveDadJoke() {
-
                     let dadJoke = data.joke
                     localStorage.setItem("DadJokes", JSON.stringify(dadJoke))
                 }
-                saveDadJoke()
-
-
+                // save to local storage
+                saveDadJoke();
             })
     }
 
+    // init function
     init();
 });
