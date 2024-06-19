@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const defaultHpEnemyPokemon = enemyPokemon.hp;
         // if true, then move userPokemon if false move enemy's
         let currentAttack = true;
-        let timer = 5;
+        let timer = 3;
 
         function updateBattleUI() {
             if (userPokemon.hp < 0) {
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // next turn
                     currentAttack = !currentAttack;
                     updateBattleUI();
-                    timer = 5;
+                    timer = 3;
                 } else {
                     timer--;
                 }
