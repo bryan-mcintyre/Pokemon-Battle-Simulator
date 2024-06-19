@@ -1,12 +1,15 @@
-:root { /*colors the background using Pokémon light blue*/
+:root {
+    /* Colors the background using Pokémon light blue */
     background: #0075BE;
 }
 
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    align-items: center; /*centers all items in the body*/
-    flex-direction: column; /*makes the storage box go below the battle box as a column*/
+    align-items: center;
+    /* Centers all items in the body */
+    flex-direction: column;
+    /* Makes the storage box go below the battle box as a column */
     height: 100vh;
     margin: 0;
 }
@@ -24,17 +27,19 @@ main {
 }
 
 p {
-    color: #FFCC00; /*uses Pokémon yellow for all p element text*/
+    color: #FFCC00;
+    /* Uses Pokémon yellow for all p element text */
     text-shadow: -2px 2px 3px #3b4cca;
     text-decoration: underline;
-    font-family: "Marcellus", serif; /*a google font*/
+    font-family: "Marcellus", serif;
+    /* A Google font */
     font-weight: 400;
     font-style: normal;
     font-size: 40px;
 }
 
 img {
-    /*this is a generated image we made for Pokémon Battle Simulator header*/
+    /* This is a generated image we made for Pokémon Battle Simulator header */
     width: 200px;
     height: 200px;
 }
@@ -45,7 +50,8 @@ img {
 }
 
 .box {
-    background-color: #cc0000; /*colors all boxes with pokéball red*/
+    background-color: #cc0000;
+    /* Colors all boxes with Pokéball red */
     height: 100%;
     border-style: inset;
     border-width: 10px;
@@ -67,7 +73,6 @@ img {
     width: 15%;
 }
 
-/*below 3 are battle card stylings aka the Pokémon cards themselves*/
 .battle-container {
     width: 100%;
     display: flex;
@@ -97,20 +102,26 @@ img {
     margin: 0 20px;
 }
 
-.button { /*button styling for all buttons*/
+.button {
+    /* Button styling for all buttons */
     width: 250px;
     height: 35px;
     color: white;
     font-weight: bold;
     background-color: black;
-    border-color: white;
-    border-width: 5px;
-    border-style: double;
+    border-color: #FFCC00;
+    border-width: 4px;
+    border-style: inset;
     text-shadow: 1px 1px 4px #FFCC00;
     margin-top: 20px;
+    font-size: 1rem;
+    /* Adjusted font size */
+    padding: 0 10px;
+    /* Adjusted padding for better text fit */
 }
 
-.button:hover { /*makes the buttons turn Pokémon yellow on hover*/
+.button:hover {
+    /* Makes the buttons turn Pokémon yellow on hover */
     background-color: #FFCC00;
 }
 
@@ -119,31 +130,38 @@ img {
     height: 50px;
     color: white;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.25rem;
+    /* Adjusted font size */
     background-color: black;
     border-color: white;
-    border-width: 5px;
+    border-width: 4px;
     border-style: double;
     text-shadow: 1px 1px 4px #FFCC00;
     margin-top: 20px;
+    padding: 0 10px;
+    /* Adjusted padding for better text fit */
 }
 
 .starter-button:hover {
     background-color: #FFCC00;
 }
 
-/*next 6 all style the storage container which holds the user's owned Pokémon*/
 .storage-button {
     width: 250px;
     height: 35px;
     color: white;
     font-weight: bold;
     background-color: black;
-    border-color: white;
-    border-width: 5px;
-    border-style: double;
+    border-color: #FFCC00;
+    border-width: 4px;
+    border-style: inset;
+    border-radius: 10%;
     text-shadow: 1px 1px 4px #FFCC00;
     margin-bottom: 20px;
+    font-size: 1rem;
+    /* Adjusted font size */
+    padding: 0 10px;
+    /* Adjusted padding for better text fit */
 }
 
 .storage-button:hover {
@@ -151,17 +169,18 @@ img {
 }
 
 .storage-cell.expanded {
-    width: auto; /*this makes the container expand as the user collects more Pokémon*/
+    width: auto;
+    /* This makes the container expand as the user collects more Pokémon */
 }
 
 #storage-box-container.expanded {
-    display: flex; /*this makes the container expand as the user collects more Pokémon*/
+    display: flex;
+    /* This makes the container expand as the user collects more Pokémon */
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
 }
 
-/*these next two style the untoggled storage container aka when it is not showing the user's owned Pokémon*/
 .storage-cell.collapsed {
     width: 15%;
 }
@@ -169,7 +188,6 @@ img {
 #storage-box-container.collapsed {
     display: none;
 }
-
 
 .grid {
     display: flex;
@@ -186,7 +204,8 @@ img {
     width: 100%;
 }
 
-.card { /*this styles all of the Pokémon cards as they are created by javascript*/
+.card {
+    /* This styles all of the Pokémon cards as they are created by JavaScript */
     background-color: #3b4cca;
     border: 8px solid #ddd;
     border-radius: 8px;
@@ -194,17 +213,23 @@ img {
     border-color: #FFCC00;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    width: 200px;
-    height: 315px;
+    width: 150px;
+    /* Adjusted for better fit */
+    height: 250px;
+    /* Adjusted for better fit */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
+    /* Added padding for better content fit */
 }
 
 .card img {
-    max-width: 150px;
-    max-height: 150px;
+    max-width: 100px;
+    /* Adjusted for better fit */
+    max-height: 100px;
+    /* Adjusted for better fit */
     object-fit: contain;
 }
 
@@ -216,7 +241,8 @@ img {
 }
 
 .card-title {
-    font-size: 18px;
+    font-size: 14px;
+    /* Adjusted font size */
     text-transform: capitalize;
     margin: 0 0 5px;
     font-weight: bold;
@@ -228,7 +254,8 @@ img {
 .card-text {
     color: #FFCC00;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 10px;
+    /* Adjusted font size */
     text-decoration: none;
 }
 
@@ -238,7 +265,8 @@ img {
     height: auto;
 }
 
-.modal { /*styles the modals*/
+.modal {
+    /* Styles the modals */
     display: none;
     position: fixed;
     z-index: 1;
@@ -253,10 +281,10 @@ img {
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: black;
     margin: 5% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 6px inset #FFCC00;
     width: 80%;
 }
 
@@ -274,7 +302,6 @@ img {
     cursor: pointer;
 }
 
-/*styles the release Pokémon button which is printed on all user owned cards*/
 .release-button {
     background-color: #0075BE;
     color: white;
@@ -284,6 +311,8 @@ img {
     padding: 5px 10px;
     cursor: pointer;
     margin-top: 5px;
+    font-size: 0.75rem;
+    /* Adjusted font size */
     font-weight: bold;
 }
 
@@ -337,8 +366,299 @@ img {
     justify-content: center;
 }
 
-.control { 
-    /*this adjusts the two battle side buttons*/
+.control {
+    /* This adjusts the two battle side buttons */
     padding-right: 125px;
     padding-left: 25px;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    border: 10px inset;
+    border-color: #3b4cca;
+    background-color: #cc0000;
+    color:#FFCC00;
+    text-shadow: 2px 2px 3px #0075BE;
+    font-size: 18px;
+    font-family: "Marcellus", serif;
+    text-decoration:solid;
+    padding: 10px;
+}
+
+/* Media queries for responsiveness */
+
+/* For devices with a max width of 1024px */
+@media (max-width: 1024px) {
+
+    .cell {
+        width: 600px;
+    }
+
+    .storage-cell.collapsed {
+        width: 30%;
+    }
+
+    .starter-button,
+    .button,
+    .storage-button {
+        width: 200px;
+        font-size: 0.78rem;
+        /* Adjusted font size */
+        padding: 0 5px;
+        /* Adjusted padding for better text fit */
+    }
+
+    .control {
+        padding-right: 75px;
+        padding-left: 15px;
+    }
+
+    .card {
+        width: 130px;
+        height: 220px;
+        padding: 5px;
+        /* Adjusted padding for better content fit */
+    }
+
+    .card img {
+        max-width: 80px;
+        max-height: 80px;
+    }
+
+    .card-title {
+        font-size: 12px;
+        /* Adjusted font size */
+    }
+
+    .card-text {
+        font-size: 9px;
+        /* Adjusted font size */
+    }
+}
+
+/* For devices with a max width of 768px */
+@media (max-width: 768px) {
+    .cell {
+        width: 500px;
+    }
+
+    .storage-cell {
+        width: 500px;
+    }
+
+    .starter-button,
+    .button,
+    .storage-button {
+        width: auto;
+        font-size: 0.80rem;
+        /* Adjusted font size */
+        padding: 0 5px;
+        /* Adjusted padding for better text fit */
+    }
+
+    .control {
+        padding-right: 50px;
+        padding-left: 10px;
+    }
+
+    .card {
+        width: 120px;
+        height: 200px;
+        padding: 5px;
+        /* Adjusted padding for better content fit */
+    }
+
+    .card img {
+        max-width: 70px;
+        max-height: 70px;
+    }
+
+    .card-title {
+        font-size: 10px;
+        /* Adjusted font size */
+    }
+
+    .card-text {
+        font-size: 8px;
+        /* Adjusted font size */
+    }
+}
+
+/* For devices with a max width of 480px */
+@media (max-width: 480px) {
+    .cell {
+        width: auto;
+    }
+
+    .storage-cell.collapsed {
+        width: auto;
+    }
+
+    .starter-button,
+    .button,
+    .storage-button {
+        width: auto;
+        font-size: 0.65rem;
+        /* Adjusted font size */
+        padding: 0 3px;
+        /* Adjusted padding for better text fit */
+        border-style: inset;
+        border-color: #FFCC00;
+        font-family: "Marcellus", serif;
+
+    }
+
+    .battle-container {
+        padding: 10px;
+    }
+
+    .control {
+        padding-right: 25px;
+        padding-left: 5px;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .card {
+        width: 130px;
+        height: 200px;
+        padding: 5px;
+        /* Adjusted padding for better content fit */
+    }
+
+    .card img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .card-title {
+        font-size: 12px;
+        /* Adjusted font size */
+    }
+
+    .card-text {
+        font-size: 10px;
+        /* Adjusted font size */
+    }
+
+
+    .modal-content .card {
+        background-color: #3b4cca;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px inset #FFCC00;
+        border-width: 5px;
+        width: 95%;
+        height: auto;
+    }
+
+    .header-image {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .footer {
+        border: 6px inset;
+        border-color: #3b4cca;
+        font-size: 10px;
+        font-family: "Marcellus", serif;
+        text-decoration:solid;
+        padding: 6px;
+    }
+}
+
+/* For devices with a max width of 480px */
+@media (max-width: 375px) {
+    .cell {
+        width: auto;
+    }
+
+    .storage-cell.collapsed {
+        width: auto;
+    }
+
+    .starter-button,
+    .button,
+    .storage-button {
+        width: auto;
+        font-size: 0.59rem;
+        /* Adjusted font size */
+        padding: 0 3px;
+        /* Adjusted padding for better text fit */
+        border-style: inset;
+        border-color: #FFCC00;
+        font-family: "Marcellus", serif;
+
+    }
+
+    .battle-container {
+        padding: 10px;
+    }
+
+    .control {
+        padding-right: 25px;
+        padding-left: 5px;
+    }
+
+    .title {
+        font-size: 30px;
+    }
+
+    .card {
+        width: 120px;
+        height: 200px;
+        padding: 5px;
+        /* Adjusted padding for better content fit */
+    }
+
+    .card img {
+        max-width: 60px;
+        max-height: 60px;
+    }
+
+    .card-title {
+        font-size: 11px;
+        /* Adjusted font size */
+    }
+
+    .card-text {
+        font-size: 9px;
+        /* Adjusted font size */
+    }
+
+
+    .modal-content .card {
+        background-color: #3b4cca;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px inset #FFCC00;
+        border-width: 5px;
+        width: 95%;
+        height: auto;
+    }
+
+    .header-image {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .footer {
+        border: 6px inset;
+        border-color: #3b4cca;
+        font-size: 9px;
+        font-family: "Marcellus", serif;
+        text-decoration:solid;
+        padding: 5px;
+    }
 }
