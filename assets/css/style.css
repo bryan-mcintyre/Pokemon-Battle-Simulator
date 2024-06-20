@@ -595,7 +595,6 @@ img {
         border-style: inset;
         border-color: #FFCC00;
         font-family: "Marcellus", serif;
-
     }
 
     .battle-card-container {
@@ -607,8 +606,8 @@ img {
     }
 
     .control {
-        padding-right: 24px;
-        padding-left: 5px;
+        padding-right: 15px;
+        padding-left: 15px;
     }
 
     .title {
