@@ -47,10 +47,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // start battle open modal
     battleButton.addEventListener('click', () => {
+        battleText.textContent = ``;
         if (userPokemonSelected && opponentPokemonSelected) {
             displayBattleSummary();
             battleModal.style.display = 'block';
-            battle(userPokemonSelected, opponentPokemonSelected);
+            battle(userPokemonSelected, opponentPokemonSelected, (isWin) => {
+                // win congratulation
+                if (isWin) {
+                    saveNewPokemonToStorage(opponentPokemonSelected);
+                    createCard(opponentPokemonSelected, storageBoxContainer, true);
+                    battleText.textContent = `Congratulations you caught a ${opponentPokemonSelected.name}`;
+                    // lost get dad joke
+                } else {
+                    battleText.textContent = `You lose! Have a Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
+                    fetchDadJoke();
+                }
+                clearContainers();
+            });
         }
     });
 
@@ -306,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayStoredPokemons();
 
     // take 2 objects pokemon
-    function battle(userPokemon, enemyPokemon) {
+    function battle(userPokemon, enemyPokemon, callback) {
         checkBattleReady(false);
         const opponentPokemonBattle = document.getElementById('opponent-pokemon');
         const userPokemonBattle = document.getElementById('user-pokemon');
@@ -354,19 +367,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 clearInterval(interval);
-                // if win congratulation, if lost get dad joke
-                battleText.textContent = userPokemon.hp > 0 ? `Congratulations you caught a ${enemyPokemon.name}` : `You lose! Have a Dad Joke:\n ${getDadJokeFromLocalStorage()}`;
 
-                if (userPokemon.hp > 0) {
-                    enemyPokemon.hp = defaultHpEnemyPokemon;
-                    saveNewPokemonToStorage(enemyPokemon);
-                    createCard(enemyPokemon, storageBoxContainer, true);
-                    clearContainers();
-                    return isWinUser;
-                } else {
-                    clearContainers();
-                    fetchDadJoke();
-                    return !isWinUser;
+                enemyPokemon.hp = defaultHpEnemyPokemon;
+
+                if (callback) {
+                    callback(userPokemon.hp > 0);
                 }
             }
         }, 1000);
