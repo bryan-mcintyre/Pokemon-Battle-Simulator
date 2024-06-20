@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cardBody.appendChild(cardText);
 
         // add release-button  if it's not battle
-        if (isStorage && container.id !== 'battle-card-container' && container.id !== 'opponent-card-container') {
+        if (isValidContainer(isStorage, container.id)) {
             const releaseButton = document.createElement('button');
             releaseButton.className = 'release-button';
             releaseButton.textContent = 'Release Pokémon';
@@ -263,6 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             arrayStoragePokemons.splice(index, 1);
             setStoragePokemonsToLocalStorage(arrayStoragePokemons);
         }
+        isAuthorized();
     };
 
     const displayStoredPokemons = () => {
@@ -360,10 +361,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     enemyPokemon.hp = defaultHpEnemyPokemon;
                     saveNewPokemonToStorage(enemyPokemon);
                     createCard(enemyPokemon, storageBoxContainer, true);
-                    setNullCurrentPokemons();
+                    clearContainers();
                     return isWinUser;
                 } else {
-                    setNullCurrentPokemons();
+                    clearContainers();
                     fetchDadJoke();
                     return !isWinUser;
                 }
@@ -372,7 +373,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // unsellect pokemons after battle
-    function setNullCurrentPokemons() {
+    function clearContainers() {
+        battlePokemonContainer.innerHTML = '';
+        opponentCardContainer.innerHTML = '';
         userPokemonSelected = null;
         opponentPokemonSelected = null;
     }
@@ -415,6 +418,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getDadJokeFromLocalStorage() {
         return JSON.parse(localStorage.getItem("DadJokes"));
+    }
+
+    function isValidContainer(isStorage, containerId) {
+        return isStorage &&
+            containerId !== 'battle-card-container' &&
+            containerId !== 'opponent-card-container' &&
+            containerId !== 'battle-storage-container';
     }
 
     // init function
