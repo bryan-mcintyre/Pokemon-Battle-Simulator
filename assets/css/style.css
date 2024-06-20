@@ -574,8 +574,8 @@ img {
     }
 }
 
-/* For devices with a max width of 480px */
-@media (max-width: 375px) {
+/* For devices with a max width of 430px */
+@media (max-width: 430px) {
     .cell {
         width: auto;
     }
@@ -588,9 +588,9 @@ img {
     .button,
     .storage-button {
         width: auto;
-        font-size: 0.59rem;
+        font-size: 0.52rem;
         /* Adjusted font size */
-        padding: 0 3px;
+        padding: 0 19px;
         /* Adjusted padding for better text fit */
         border-style: inset;
         border-color: #FFCC00;
