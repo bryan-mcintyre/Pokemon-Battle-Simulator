@@ -378,11 +378,11 @@ img {
     border: 10px inset;
     border-color: #3b4cca;
     background-color: #cc0000;
-    color:#FFCC00;
+    color: #FFCC00;
     text-shadow: 2px 2px 3px #0075BE;
     font-size: 18px;
     font-family: "Marcellus", serif;
-    text-decoration:solid;
+    text-decoration: solid;
     padding: 10px;
 }
 
@@ -569,7 +569,7 @@ img {
         border-color: #3b4cca;
         font-size: 10px;
         font-family: "Marcellus", serif;
-        text-decoration:solid;
+        text-decoration: solid;
         padding: 6px;
     }
 }
@@ -590,12 +590,16 @@ img {
         width: auto;
         font-size: 0.52rem;
         /* Adjusted font size */
-        padding: 0 19px;
+        padding: 0 11px;
         /* Adjusted padding for better text fit */
         border-style: inset;
         border-color: #FFCC00;
         font-family: "Marcellus", serif;
 
+    }
+
+    .battle-card-container {
+        width: 120px;
     }
 
     .battle-container {
@@ -658,7 +662,7 @@ img {
         border-color: #3b4cca;
         font-size: 9px;
         font-family: "Marcellus", serif;
-        text-decoration:solid;
+        text-decoration: solid;
         padding: 5px;
     }
 }
