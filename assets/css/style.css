@@ -684,6 +684,8 @@ img {
         border-style: inset;
         border-color: #FFCC00;
         font-family: "Marcellus", serif;
+        display: flex;
+        align-items: center;
     }
 
     .battle-card-container {
@@ -691,7 +693,11 @@ img {
     }
 
     .battle-container {
-        padding: 10px;
+        padding: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-around;
     }
 
     .control {
